@@ -6,7 +6,7 @@ namespace Lox_Lang
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hello Universe!");
         }
     }
 }
