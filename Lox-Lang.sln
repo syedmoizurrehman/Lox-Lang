@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lox-Lang", "Lox-Lang.csproj", "{6756E58F-FAB2-43C5-BAAD-D880083D28D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lox-Lang", "Lox-Lang\Lox-Lang.csproj", "{6756E58F-FAB2-43C5-BAAD-D880083D28D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
