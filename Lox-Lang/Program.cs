@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lox_Lang
+namespace LoxLang
 {
     class Program
     {
