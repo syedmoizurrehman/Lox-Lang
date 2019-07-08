@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoxStar", "LoxStar\LoxStar.csproj", "{6756E58F-FAB2-43C5-BAAD-D880083D28D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{041F874A-4B41-4403-B2C6-4A69477B7020}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Frontend", "Frontend\Frontend.csproj", "{041F874A-4B41-4403-B2C6-4A69477B7020}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorLogger", "ErrorLogger\ErrorLogger.csproj", "{3D13DCC6-9D46-478F-AB8A-E76478847B8F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{041F874A-4B41-4403-B2C6-4A69477B7020}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{041F874A-4B41-4403-B2C6-4A69477B7020}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{041F874A-4B41-4403-B2C6-4A69477B7020}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D13DCC6-9D46-478F-AB8A-E76478847B8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D13DCC6-9D46-478F-AB8A-E76478847B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D13DCC6-9D46-478F-AB8A-E76478847B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D13DCC6-9D46-478F-AB8A-E76478847B8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
