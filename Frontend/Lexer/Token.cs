@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Frontend.Lexer
+﻿namespace Frontend.Lexer
 {
     public struct Token
     {
@@ -14,12 +10,15 @@ namespace Frontend.Lexer
 
         int LineNumber { get; }
 
-        public Token(TokenType type, string lexeme, object literal, int lineNumber)
+        int ColumnNumber { get; }
+
+        public Token(TokenType type, string lexeme, object literal, int lineNumber, int columnNumber)
         {
             Type = type;
             Lexeme = lexeme;
             Literal = literal;
             LineNumber = lineNumber;
+            ColumnNumber = columnNumber;
         }
 
         public override string ToString() => Type + " " + Lexeme + " " + Literal;
