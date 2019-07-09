@@ -173,11 +173,11 @@ namespace Frontend.Lexer
                         // Unexpected EOF in string literal.
                         AddError("Unterminated string literal.");
                         break;
-
+                        
                     case LexerState.NumberLit:
-
                         AddToken(NUMBER, Convert.ToDouble(GetLexemeString()));
                         break;
+                        
                     case LexerState.Identifier:
                         TokenType Type;
                         switch (GetLexemeString())
@@ -202,6 +202,7 @@ namespace Frontend.Lexer
                         }
                         AddToken(Type);
                         break;
+                        
                     case LexerState.Comment:
                         // Not an error.
                         break;
