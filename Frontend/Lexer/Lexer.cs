@@ -176,8 +176,32 @@ namespace Frontend.Lexer
 
                     case LexerState.NumberLit:
 
+                        AddToken(NUMBER, Convert.ToDouble(GetLexemeString()));
+                        break;
                     case LexerState.Identifier:
-
+                        TokenType Type;
+                        switch (GetLexemeString())
+                        {
+                            case "and": Type = AND; break;
+                            case "class": Type = CLASS; break;
+                            case "else": Type = ELSE; break;
+                            case "false": Type = FALSE; break;
+                            case "for": Type = FOR; break;
+                            case "fun": Type = FUN; break;
+                            case "if": Type = IF; break;
+                            case "nil": Type = NIL; break;
+                            case "or": Type = OR; break;
+                            case "print": Type = PRINT; break;
+                            case "return": Type = RETURN; break;
+                            case "super": Type = SUPER; break;
+                            case "this": Type = THIS; break;
+                            case "true": Type = TRUE; break;
+                            case "var": Type = VAR; break;
+                            case "while": Type = WHILE; break;
+                            default: Type = IDENTIFIER; break;
+                        }
+                        AddToken(Type);
+                        break;
                     case LexerState.Comment:
                         // Not an error.
                         break;
