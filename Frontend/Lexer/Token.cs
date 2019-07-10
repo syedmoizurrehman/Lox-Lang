@@ -2,15 +2,15 @@
 {
     public struct Token
     {
-        TokenType Type { get; }
+        public TokenType Type { get; }
 
-        string Lexeme { get; }
+        public string Lexeme { get; }
 
-        object Literal { get; }
+        public object Literal { get; }
 
-        int LineNumber { get; }
+        public int LineNumber { get; }
 
-        int ColumnNumber { get; }
+        public int ColumnNumber { get; }
 
         public Token(TokenType type, string lexeme, object literal, int lineNumber, int columnNumber)
         {
