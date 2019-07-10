@@ -85,8 +85,7 @@ namespace Frontend.Lexer
                                     CurrentState = LexerState.Identifier;
                                     MarkSymbolStart();
                                 }
-                                else
-                                    AddError("Invalid character.");
+                                else { AddError("Invalid character."); ResetState(); }
                                 break;
                         }
                         break;
@@ -111,9 +110,9 @@ namespace Frontend.Lexer
                                 if (!IsFraction)
                                 {
                                     if (IsEnglishDigit(Peek())) IsFraction = true;
-                                    else AddError("'.' at the end of literal.");
+                                    else { AddError("'.' at the end of literal."); ResetState(); }
                                 }
-                                else AddError("Extra '.' in number literal. Only one '.' is allowed in number literals.");
+                                else { AddError("Extra '.' in number literal. Only one '.' is allowed in number literals."); ResetState(); }
                                 break;
 
                             default:
@@ -172,6 +171,7 @@ namespace Frontend.Lexer
                     case LexerState.StringLit:
                         // Unexpected EOF in string literal.
                         AddError("Unterminated string literal.");
+                        ResetState();
                         break;
                         
                     case LexerState.NumberLit:
@@ -225,7 +225,7 @@ namespace Frontend.Lexer
 
         private void AddToken(TokenType type, object literal = null) => Tokens.Add(new Token(type, GetLexemeString(), literal, CurrentLine, StartIndex));
 
-        private void AddError(string message) => ErrorLoggingService.Errors.Add(new Error(message, CurrentLine, CurrentIndex));
+        private void AddError(string errorMessage) => ErrorLoggingService.Errors.Add(new Error(errorMessage, CurrentLine, CurrentIndex));
 
         private bool IsEnglishDigit(char c) => c >= '0' && c <= '9';
 
