@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Frontend.Lexer
+﻿namespace Frontend.Lexer
 {
     public struct Token
     {
-        TokenType Type { get; }
+        public TokenType Type { get; }
 
-        string Lexeme { get; }
+        public string Lexeme { get; }
 
-        object Literal { get; }
+        public object Literal { get; }
 
-        int LineNumber { get; }
+        public int LineNumber { get; }
 
-        public Token(TokenType type, string lexeme, object literal, int lineNumber)
+        public int ColumnNumber { get; }
+
+        public Token(TokenType type, string lexeme, object literal, int lineNumber, int columnNumber)
         {
             Type = type;
             Lexeme = lexeme;
             Literal = literal;
             LineNumber = lineNumber;
+            ColumnNumber = columnNumber;
         }
 
         public override string ToString() => Type + " " + Lexeme + " " + Literal;
