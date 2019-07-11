@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Frontend
+namespace Frontend.Parser
 {
     public class Parser
     {

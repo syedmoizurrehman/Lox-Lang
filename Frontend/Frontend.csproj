@@ -5,7 +5,34 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Generated\Expression.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Generated\Expression.tt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ErrorLogger\ErrorLogger.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Generated\Syntax Trees\Expression.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Expression.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Generated\Syntax Trees\Expression.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Expression.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

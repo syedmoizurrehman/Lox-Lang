@@ -28,14 +28,14 @@ namespace LoxStar
         {
             while (true)
             {
-                Console.Write(">");
+                Console.Write("LoxStar>");
                 string Input = Console.ReadLine();
                 var LexicalAnalyzer = new Lexer(Input);
                 foreach (var Token in LexicalAnalyzer.Tokenize())
                     Console.WriteLine(Token);
 
-                foreach (var item in ErrorLoggingService.Errors)
-                    Console.WriteLine($"At line {item.LineNumber}, col {item.ColumnNumber}: {item.Message}");
+                foreach (Error E in ErrorLoggingService.Errors)
+                    Console.WriteLine($"At line {E.LineNumber}, col {E.ColumnNumber}: {E.Message}");
 
                 ErrorLoggingService.Errors.Clear();
             }
