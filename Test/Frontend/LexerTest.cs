@@ -65,6 +65,8 @@ namespace Test.Frontend
         [InlineData("123.;")]
         [InlineData("ï")]
         [InlineData("\"unterminated string")]
+        [InlineData("/*unterminated comment")]
+        [InlineData("*/")]
         public void ErrorGenerationTest(string userInput)
         {
             ErrorLoggingService.Errors.Clear();
@@ -78,6 +80,9 @@ namespace Test.Frontend
         [InlineData("\t")]
         [InlineData("\n")]
         [InlineData("//something\n//this")]
+        [InlineData("/**/")]
+        [InlineData("/*var*/")]
+        [InlineData("// block comment*/")]
         public void WhitespaceAndCommentTest(string userInput)
         {
             var TestObj = GetTestLexer(userInput);
