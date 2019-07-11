@@ -54,7 +54,10 @@ namespace Frontend.Lexer
                             case '=': MarkSymbolStart(); if (Peek() == '=') { AddToken(EQUAL_EQUAL); CurrentIndex++; } else AddToken(EQUAL); break;
                             case '<': MarkSymbolStart(); if (Peek() == '=') { AddToken(LESS_EQUAL); CurrentIndex++; } else AddToken(LESS); break;
                             case '>': MarkSymbolStart(); if (Peek() == '=') { AddToken(GREATER_EQUAL); CurrentIndex++; } else AddToken(GREATER); break;
-                            case '/': MarkSymbolStart(); if (Peek() == '/') { CurrentState = LexerState.Comment; CurrentIndex++; } else AddToken(SLASH); break;
+                            case '/': MarkSymbolStart(); if (Peek() == '/') { CurrentState = LexerState.Comment; CurrentIndex++; } else if (Peek() == '*') { CurrentState = LexerState.Comment; CurrentIndex++; } else AddToken(SLASH); break;
+
+
+
 
                             // Whitespaces.                      
                             case ' ':
@@ -161,6 +164,7 @@ namespace Frontend.Lexer
 
                     case LexerState.Comment:
                         if (C == '\n') { CurrentLine++; ResetState(); }
+                        else if (C == '*') { MarkSymbolStart(); if (Peek() == '/') { CurrentIndex++; ResetState(); } }
                         break;
                 }
             }
@@ -203,7 +207,7 @@ namespace Frontend.Lexer
                         AddToken(Type);
                         break;
                     case LexerState.Comment:
-                        // Not an error.
+                        CurrentLine++; ResetState();
                         break;
                 }
             }
