@@ -35,7 +35,7 @@ namespace LoxStar
                     Console.WriteLine(Token);
 
                 foreach (var item in ErrorLoggingService.Errors)
-                    Console.WriteLine($"At line {item.LineNumber} col {item.ColumnNumber}, {item.Message}");
+                    Console.WriteLine($"At line {item.LineNumber}, col {item.ColumnNumber}: {item.Message}");
 
                 ErrorLoggingService.Errors.Clear();
             }
