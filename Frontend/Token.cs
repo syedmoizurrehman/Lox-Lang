@@ -1,4 +1,4 @@
-﻿namespace Frontend.Lexer
+﻿namespace Frontend
 {
     public struct Token
     {

@@ -10,12 +10,10 @@
  * This is an automatically generated file. Any changes made will be lost upon regeneration.
 */
 
-using Frontend.Lexer;
-
-namespace Frontend.SyntaxTrees
+namespace Frontend.Expressions
 {
 <#			var Doc = new XmlDocument();
-            Doc.Load(@"C:\Users\Administrative\Source\Repos\LoxStar\Frontend\SyntaxTrees.xml");
+            Doc.Load(@"C:\Users\Administrative\Source\Repos\LoxStar\Frontend\Generated\Syntax Trees\SyntaxTrees.xml");
             var Classes = new List<string>();
             var Properties = new List<(string, string, string)>();   // Class, Property, Type
             foreach (XmlNode N in Doc.ChildNodes[1].ChildNodes)

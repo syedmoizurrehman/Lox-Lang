@@ -1,8 +1,9 @@
+using ErrorLogger;
+using Frontend;
 using Frontend.Lexer;
 using System.Collections.Generic;
 using Xunit;
-using static Frontend.Lexer.TokenType;
-using ErrorLogger;
+using static Frontend.TokenType;
 
 namespace Test.Frontend
 {

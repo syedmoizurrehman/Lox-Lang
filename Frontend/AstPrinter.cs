@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Frontend.SyntaxTrees
+namespace Frontend.Expressions
 {
     public class AstPrinter : IExpressionVisitor<string>
     {

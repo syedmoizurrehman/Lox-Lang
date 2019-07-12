@@ -2,9 +2,7 @@
  * This is an automatically generated file. Any changes made will be lost upon regeneration.
 */
 
-using Frontend.Lexer;
-
-namespace Frontend.SyntaxTrees
+namespace Frontend.Expressions
 {
 	public interface IExpressionVisitor<T>
 	{
