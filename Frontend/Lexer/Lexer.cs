@@ -7,7 +7,7 @@ namespace Frontend.Lexer
 {
     public class Lexer
     {
-        readonly List<Token> Tokens;
+        readonly IList<Token> Tokens;
         int CurrentLine;
         readonly string Source;
         int StartIndex;
@@ -28,7 +28,7 @@ namespace Frontend.Lexer
             Undetermined, StringLit, NumberLit, Comment, Identifier
         }
 
-        public IEnumerable<Token> Tokenize()
+        public IList<Token> Tokenize()
         {
             bool IsFraction = false;
             while (!IsSourceConsumed())
@@ -50,10 +50,10 @@ namespace Frontend.Lexer
                             case '-': MarkTokenStart(); AddToken(MINUS); break;
                             case '+': MarkTokenStart(); AddToken(PLUS); break;
                             case '*': MarkTokenStart(); AddToken(STAR); break;
-                            case '!': MarkTokenStart(); if (Peek() == '=') { AddToken(BANG_EQUAL); CurrentIndex++; } else AddToken(BANG); break;
-                            case '=': MarkTokenStart(); if (Peek() == '=') { AddToken(EQUAL_EQUAL); CurrentIndex++; } else AddToken(EQUAL); break;
-                            case '<': MarkTokenStart(); if (Peek() == '=') { AddToken(LESS_EQUAL); CurrentIndex++; } else AddToken(LESS); break;
-                            case '>': MarkTokenStart(); if (Peek() == '=') { AddToken(GREATER_EQUAL); CurrentIndex++; } else AddToken(GREATER); break;
+                            case '!': MarkTokenStart(); if (Peek() == '=') { CurrentIndex++; AddToken(BANG_EQUAL); } else AddToken(BANG); break;
+                            case '=': MarkTokenStart(); if (Peek() == '=') { CurrentIndex++; AddToken(EQUAL_EQUAL); } else AddToken(EQUAL); break;
+                            case '<': MarkTokenStart(); if (Peek() == '=') { CurrentIndex++; AddToken(LESS_EQUAL); } else AddToken(LESS); break;
+                            case '>': MarkTokenStart(); if (Peek() == '=') { CurrentIndex++; AddToken(GREATER_EQUAL); } else AddToken(GREATER); break;
                             case '/': MarkTokenStart(); if (Peek() == '/') { CurrentState = LexerState.Comment; CurrentIndex++; } else AddToken(SLASH); break;
 
                             // Whitespaces.                      
