@@ -62,6 +62,58 @@ namespace Test.Frontend
         }
 
         [Theory]
+        [InlineData("(")]
+        [InlineData(")")]
+        [InlineData("{")]
+        [InlineData("}")]
+        [InlineData("!")]
+        [InlineData(".")]
+        [InlineData(",")]
+        [InlineData(";")]
+        [InlineData("*")]
+        [InlineData("/")]
+        [InlineData("+")]
+        [InlineData("-")]
+        [InlineData("=")]
+        [InlineData("==")]
+        [InlineData("<")]
+        [InlineData("<=")]
+        [InlineData(">")]
+        [InlineData(">=")]
+        [InlineData("and")]
+        [InlineData("class")]
+        [InlineData("else")]
+        [InlineData("false")]
+        [InlineData("for")]
+        [InlineData("fun")]
+        [InlineData("if")]
+        [InlineData("nil")]
+        [InlineData("or")]
+        [InlineData("print")]
+        [InlineData("return")]
+        [InlineData("super")]
+        [InlineData("this")]
+        [InlineData("true")]
+        [InlineData("var")]
+        [InlineData("while")]
+        [InlineData("someidentifier")]
+        [InlineData("123")]
+        [InlineData("123.2")]
+        [InlineData("\"Hello, World!\"")]
+        public void IndividualTokenLexemeTest(string userInput)
+        {
+            var TestObj = GetTestLexer(userInput);
+            IEnumerable<Token> Actual = TestObj.Tokenize();
+            IEnumerator<Token> ActualEnumerator = Actual.GetEnumerator();
+
+            Token T = default;
+            if (ActualEnumerator.MoveNext())
+                T = ActualEnumerator.Current;
+
+            Assert.True(T.Lexeme == userInput);
+        }
+
+        [Theory]
         [InlineData("123.2.2")]
         [InlineData("123.;")]
         [InlineData("ï")]
