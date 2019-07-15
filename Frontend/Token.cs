@@ -31,6 +31,7 @@
         COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
 
         // One or two character tokens.                  
+        QUESTION, COLON,
         BANG, BANG_EQUAL,
         EQUAL, EQUAL_EQUAL,
         GREATER, GREATER_EQUAL,

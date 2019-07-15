@@ -8,6 +8,7 @@ namespace Frontend.Expressions
 {
 	public interface IExpressionVisitor<T>
 	{
+		T VisitTernaryExpression(TernaryExpression ternaryExpression);
 		T VisitBinaryExpression(BinaryExpression binaryExpression);
 		T VisitGroupingExpression(GroupingExpression groupingExpression);
 		T VisitLiteralExpression(LiteralExpression literalExpression);
@@ -17,6 +18,25 @@ namespace Frontend.Expressions
 	public abstract class Expression
     {
 		public abstract T Accept<T>(IExpressionVisitor<T> visitor);
+	}
+
+	public class TernaryExpression : Expression
+    {
+		public Expression Condition { get; }
+
+		public Expression TrueExpression { get; }
+
+		public Expression FalseExpression { get; }
+
+		[DebuggerStepThrough]
+		public TernaryExpression(Expression condition, Expression trueExpression, Expression falseExpression)
+		{
+			Condition = condition;
+			TrueExpression = trueExpression;
+			FalseExpression = falseExpression;
+		}
+
+		public override T Accept<T>(IExpressionVisitor<T> visitor) => visitor.VisitTernaryExpression(this);
 	}
 
 	public class BinaryExpression : Expression

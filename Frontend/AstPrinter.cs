@@ -19,6 +19,9 @@ namespace Frontend.Expressions
             return Builder.ToString();
         }
 
+        public string VisitTernaryExpression(TernaryExpression ternaryExpression) => Parenthesize(
+            "ternary",
+            ternaryExpression.Condition, ternaryExpression.TrueExpression, ternaryExpression.FalseExpression);
         public string VisitBinaryExpression(BinaryExpression binaryExpression) => Parenthesize(binaryExpression.BinaryOperator.Lexeme, binaryExpression.Left, binaryExpression.Right);
         public string VisitGroupingExpression(GroupingExpression groupingExpression) => Parenthesize("group", groupingExpression.EnclosedExpression);
         public string VisitLiteralExpression(LiteralExpression literalExpression) => literalExpression.Value?.ToString() ?? "nil";

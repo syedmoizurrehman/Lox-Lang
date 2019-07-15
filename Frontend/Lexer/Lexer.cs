@@ -40,6 +40,8 @@ namespace Frontend.Lexer
                     case LexerState.Undetermined:
                         switch (C)
                         {
+                            case '?': MarkTokenStart(); AddToken(QUESTION); break;
+                            case ':': MarkTokenStart(); AddToken(COLON); break;
                             case '(': MarkTokenStart(); AddToken(LEFT_PAREN); break;
                             case ')': MarkTokenStart(); AddToken(RIGHT_PAREN); break;
                             case '{': MarkTokenStart(); AddToken(LEFT_BRACE); break;

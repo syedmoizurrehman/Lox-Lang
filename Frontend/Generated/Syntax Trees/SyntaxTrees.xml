@@ -2,6 +2,11 @@
 <Trees>
   <Expression>
   </Expression>
+  <TernaryExpression>
+    <Expression>Condition</Expression>
+    <Expression>TrueExpression</Expression>
+    <Expression>FalseExpression</Expression>
+  </TernaryExpression>
   <BinaryExpression>
     <Expression>Left</Expression>
     <Token>BinaryOperator</Token>
