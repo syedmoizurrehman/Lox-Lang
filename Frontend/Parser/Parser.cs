@@ -28,7 +28,22 @@ namespace Frontend.Parser
             catch (Exception) { return null; }
         }
 
-        private Expression Expression() => Equality();
+        private Expression Expression() => Ternary();
+
+        private Expression Ternary()
+        {
+            var E = Equality();
+            if (MatchAny(QUESTION))
+            {
+                AdvanceToken();
+                var TrueExpr = Expression();
+                if (CurrentToken.Type != COLON) throw new Exception();
+                AdvanceToken();
+                var FalseExpr = Expression();
+                E = new TernaryExpression(E, TrueExpr, FalseExpr);
+            }
+            return E;
+        }
 
         private Expression Equality()
         {
