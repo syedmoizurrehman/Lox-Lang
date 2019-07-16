@@ -28,7 +28,21 @@ namespace Frontend.Parser
             catch (Exception) { return null; }
         }
 
-        private Expression Expression() => Equality();
+        private Expression Expression() => Comma();
+
+        // comma → equality ("," equality)* ;
+        private Expression Comma()
+        {
+            Expression E = Equality();
+            while (MatchAny(COMMA))
+            {
+                Token CommaOperator = CurrentToken;
+                AdvanceToken();
+                Expression Right = Equality();
+                E = new BinaryExpression(E, CommaOperator, Right);
+            }
+            return E;
+        }
 
         private Expression Equality()
         {
