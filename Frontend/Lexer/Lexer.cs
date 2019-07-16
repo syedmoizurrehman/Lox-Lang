@@ -173,11 +173,11 @@ namespace Frontend.Lexer
                         AddError("Unterminated string literal.");
                         ResetState();
                         break;
-                        
+
                     case LexerState.NumberLit:
                         AddToken(NUMBER, Convert.ToDouble(GetLexemeString()));
                         break;
-                        
+
                     case LexerState.Identifier:
                         TokenType Type;
                         switch (GetLexemeString())
@@ -202,7 +202,7 @@ namespace Frontend.Lexer
                         }
                         AddToken(Type);
                         break;
-                        
+
                     case LexerState.Comment:
                         // Not an error.
                         break;
