@@ -11,6 +11,7 @@ namespace Test.Frontend
     public class ParserTest
     {
         [Theory]
+        [InlineData(typeof(BinaryExpression), "123 , 456")]
         [InlineData(typeof(BinaryExpression), "123 * 456")]
         [InlineData(typeof(BinaryExpression), "123 != 456")]
         [InlineData(typeof(GroupingExpression), "(1)")]
@@ -26,6 +27,7 @@ namespace Test.Frontend
         }
 
         [Theory]
+        [InlineData(",", "123 , 456")]
         [InlineData("+", "123 + 456")]
         [InlineData("-", "123 - 456")]
         [InlineData("*", "123 * 456")]
