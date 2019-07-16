@@ -11,6 +11,7 @@ namespace Test.Frontend
     public class ParserTest
     {
         [Theory]
+        [InlineData(typeof(TernaryExpression), "1 == 2 ? 2 : 3")]
         [InlineData(typeof(BinaryExpression), "123 * 456")]
         [InlineData(typeof(BinaryExpression), "123 != 456")]
         [InlineData(typeof(GroupingExpression), "(1)")]
