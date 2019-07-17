@@ -1,5 +1,7 @@
 ﻿using ErrorLogger;
+using Frontend.Expressions;
 using Frontend.Lexer;
+using Frontend.Parser;
 using System;
 
 namespace LoxStar
@@ -31,11 +33,19 @@ namespace LoxStar
                 Console.Write("LoxStar>");
                 string Input = Console.ReadLine();
                 var LexicalAnalyzer = new Lexer(Input);
-                foreach (var Token in LexicalAnalyzer.Tokenize())
-                    Console.WriteLine(Token);
+                var Tokens = LexicalAnalyzer.Tokenize();
+                //foreach (var Token in Tokens)
+                    //Console.WriteLine(Token);
+
+                var P = new Parser(Tokens);
+                var ExprTree = P.Parse();
+                if (ExprTree != null)
+                    Console.WriteLine(new AstPrinter().Print(ExprTree));
+                else
+                    Console.WriteLine("Syntax error(s) in expression tree.");
 
                 foreach (Error E in ErrorLoggingService.Errors)
-                    Console.WriteLine($"At line {E.LineNumber}, col {E.ColumnNumber}: {E.Message}");
+                    Console.WriteLine(E);
 
                 ErrorLoggingService.Errors.Clear();
             }

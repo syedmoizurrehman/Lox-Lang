@@ -15,6 +15,14 @@ namespace ErrorLogger
                 ErrorWriter.WriteLine($"At line {lineNumber}, " + message);
             }
         }
+
+        public static void DisplayError(Error error)
+        {
+            using (TextWriter ErrorWriter = Console.Error)
+            {
+                ErrorWriter.WriteLine(error);
+            }
+        }
     }
 
     public struct Error
@@ -31,5 +39,7 @@ namespace ErrorLogger
             LineNumber = line;
             ColumnNumber = column;
         }
+
+        public override string ToString() => $"Error: At line {LineNumber}, col {ColumnNumber}: " + Message;
     }
 }

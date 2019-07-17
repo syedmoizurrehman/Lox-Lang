@@ -10,6 +10,8 @@
  * This is an automatically generated file. Any changes made will be lost upon regeneration.
 */
 
+using System.Diagnostics;
+
 namespace Frontend.Expressions
 {
 <#			var Doc = new XmlDocument();
@@ -39,6 +41,7 @@ namespace Frontend.Expressions
 		public <#=Prop.Item3#> <#=Prop.Item2#> { get; }
 
 <#} if (C == "Expression") goto skipctor;#>
+		[DebuggerStepThrough]
 		public <#=C#>(<# for(int i=0;i<Props.Length;i++){#><#=Props[i].Item3#> <#=Props[i].Item2[0].ToString().ToLower()+Props[i].Item2.Substring(1)#><#=i == Props.Length - 1 ? "" : ", " #><#}#>)
 		{
 <#for(int i=0;i<Props.Length;i++){#>
