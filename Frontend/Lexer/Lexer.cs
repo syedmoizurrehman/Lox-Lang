@@ -1,13 +1,13 @@
 ﻿using ErrorLogger;
 using System;
 using System.Collections.Generic;
-using static Frontend.Lexer.TokenType;
+using static Frontend.TokenType;
 
 namespace Frontend.Lexer
 {
     public class Lexer
     {
-        readonly List<Token> Tokens;
+        readonly IList<Token> Tokens;
         int CurrentLine;
         readonly string Source;
         int StartIndex;
@@ -23,12 +23,12 @@ namespace Frontend.Lexer
             CurrentState = LexerState.Undetermined;
         }
 
-        enum LexerState
+        private enum LexerState
         {
             Undetermined, StringLit, NumberLit, Comment, Identifier
         }
 
-        public IEnumerable<Token> Tokenize()
+        public IList<Token> Tokenize()
         {
             bool IsFraction = false;
             while (!IsSourceConsumed())
@@ -40,21 +40,21 @@ namespace Frontend.Lexer
                     case LexerState.Undetermined:
                         switch (C)
                         {
-                            case '(': MarkSymbolStart(); AddToken(LEFT_PAREN); break;
-                            case ')': MarkSymbolStart(); AddToken(RIGHT_PAREN); break;
-                            case '{': MarkSymbolStart(); AddToken(LEFT_BRACE); break;
-                            case '}': MarkSymbolStart(); AddToken(RIGHT_BRACE); break;
-                            case ',': MarkSymbolStart(); AddToken(COMMA); break;
-                            case '.': MarkSymbolStart(); AddToken(DOT); break;
-                            case ';': MarkSymbolStart(); AddToken(SEMICOLON); break;
-                            case '-': MarkSymbolStart(); AddToken(MINUS); break;
-                            case '+': MarkSymbolStart(); AddToken(PLUS); break;
-                            case '*': MarkSymbolStart(); AddToken(STAR); break;
-                            case '!': MarkSymbolStart(); if (Peek() == '=') { AddToken(BANG_EQUAL); CurrentIndex++; } else AddToken(BANG); break;
-                            case '=': MarkSymbolStart(); if (Peek() == '=') { AddToken(EQUAL_EQUAL); CurrentIndex++; } else AddToken(EQUAL); break;
-                            case '<': MarkSymbolStart(); if (Peek() == '=') { AddToken(LESS_EQUAL); CurrentIndex++; } else AddToken(LESS); break;
-                            case '>': MarkSymbolStart(); if (Peek() == '=') { AddToken(GREATER_EQUAL); CurrentIndex++; } else AddToken(GREATER); break;
-                            case '/': MarkSymbolStart(); if (Peek() == '/') { CurrentState = LexerState.Comment; CurrentIndex++; } else AddToken(SLASH); break;
+                            case '(': MarkTokenStart(); AddToken(LEFT_PAREN); break;
+                            case ')': MarkTokenStart(); AddToken(RIGHT_PAREN); break;
+                            case '{': MarkTokenStart(); AddToken(LEFT_BRACE); break;
+                            case '}': MarkTokenStart(); AddToken(RIGHT_BRACE); break;
+                            case ',': MarkTokenStart(); AddToken(COMMA); break;
+                            case '.': MarkTokenStart(); AddToken(DOT); break;
+                            case ';': MarkTokenStart(); AddToken(SEMICOLON); break;
+                            case '-': MarkTokenStart(); AddToken(MINUS); break;
+                            case '+': MarkTokenStart(); AddToken(PLUS); break;
+                            case '*': MarkTokenStart(); AddToken(STAR); break;
+                            case '!': MarkTokenStart(); if (Peek() == '=') { CurrentIndex++; AddToken(BANG_EQUAL); } else AddToken(BANG); break;
+                            case '=': MarkTokenStart(); if (Peek() == '=') { CurrentIndex++; AddToken(EQUAL_EQUAL); } else AddToken(EQUAL); break;
+                            case '<': MarkTokenStart(); if (Peek() == '=') { CurrentIndex++; AddToken(LESS_EQUAL); } else AddToken(LESS); break;
+                            case '>': MarkTokenStart(); if (Peek() == '=') { CurrentIndex++; AddToken(GREATER_EQUAL); } else AddToken(GREATER); break;
+                            case '/': MarkTokenStart(); if (Peek() == '/') { CurrentState = LexerState.Comment; CurrentIndex++; } else AddToken(SLASH); break;
 
                             // Whitespaces.                      
                             case ' ':
@@ -69,7 +69,7 @@ namespace Frontend.Lexer
                             // Begin string literals.
                             case '"':
                                 CurrentState = LexerState.StringLit;
-                                MarkSymbolStart();
+                                MarkTokenStart();
                                 break;
 
                             // Misc.
@@ -78,12 +78,12 @@ namespace Frontend.Lexer
                                 if (IsEnglishDigit(C))
                                 {
                                     CurrentState = LexerState.NumberLit;
-                                    MarkSymbolStart();
+                                    MarkTokenStart();
                                 }
                                 else if (IsEnglishAlphabet(C))
                                 {
                                     CurrentState = LexerState.Identifier;
-                                    MarkSymbolStart();
+                                    MarkTokenStart();
                                 }
                                 else { AddError("Invalid character."); ResetState(); }
                                 break;
@@ -173,11 +173,11 @@ namespace Frontend.Lexer
                         AddError("Unterminated string literal.");
                         ResetState();
                         break;
-                        
+
                     case LexerState.NumberLit:
                         AddToken(NUMBER, Convert.ToDouble(GetLexemeString()));
                         break;
-                        
+
                     case LexerState.Identifier:
                         TokenType Type;
                         switch (GetLexemeString())
@@ -202,7 +202,7 @@ namespace Frontend.Lexer
                         }
                         AddToken(Type);
                         break;
-                        
+
                     case LexerState.Comment:
                         // Not an error.
                         break;
@@ -219,7 +219,7 @@ namespace Frontend.Lexer
 
         private bool IsEnglishAlphabet(char c) => (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
 
-        private void MarkSymbolStart() => StartIndex = CurrentIndex;
+        private void MarkTokenStart() => StartIndex = CurrentIndex;
 
         private void ResetState() => CurrentState = LexerState.Undetermined;
 

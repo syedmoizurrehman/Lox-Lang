@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Trees>
+  <Expression>
+  </Expression>
+  <BinaryExpression>
+    <Expression>Left</Expression>
+    <Token>BinaryOperator</Token>
+    <Expression>Right</Expression>
+  </BinaryExpression>
+  <GroupingExpression>
+    <Expression>EnclosedExpression</Expression>
+  </GroupingExpression>
+  <LiteralExpression>
+    <object>Value</object>
+  </LiteralExpression>
+  <UnaryExpression>
+    <Token>UnaryOperator</Token>
+    <Expression>Right</Expression>
+  </UnaryExpression>
+</Trees>
