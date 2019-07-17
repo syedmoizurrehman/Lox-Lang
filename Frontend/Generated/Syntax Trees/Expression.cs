@@ -2,6 +2,8 @@
  * This is an automatically generated file. Any changes made will be lost upon regeneration.
 */
 
+using System.Diagnostics;
+
 namespace Frontend.Expressions
 {
 	public interface IExpressionVisitor<T>
@@ -25,6 +27,7 @@ namespace Frontend.Expressions
 
 		public Expression Right { get; }
 
+		[DebuggerStepThrough]
 		public BinaryExpression(Expression left, Token binaryOperator, Expression right)
 		{
 			Left = left;
@@ -39,6 +42,7 @@ namespace Frontend.Expressions
     {
 		public Expression EnclosedExpression { get; }
 
+		[DebuggerStepThrough]
 		public GroupingExpression(Expression enclosedExpression)
 		{
 			EnclosedExpression = enclosedExpression;
@@ -51,6 +55,7 @@ namespace Frontend.Expressions
     {
 		public object Value { get; }
 
+		[DebuggerStepThrough]
 		public LiteralExpression(object value)
 		{
 			Value = value;
@@ -65,6 +70,7 @@ namespace Frontend.Expressions
 
 		public Expression Right { get; }
 
+		[DebuggerStepThrough]
 		public UnaryExpression(Token unaryOperator, Expression right)
 		{
 			UnaryOperator = unaryOperator;
