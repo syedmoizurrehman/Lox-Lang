@@ -31,6 +31,7 @@ namespace Frontend.Lexer
         public IList<Token> Tokenize()
         {
             bool IsFraction = false;
+            CurrentLine++;
             while (!IsSourceConsumed())
             {
                 CurrentIndex++;
@@ -223,9 +224,9 @@ namespace Frontend.Lexer
 
         private void ResetState() => CurrentState = LexerState.Undetermined;
 
-        private void AddToken(TokenType type, object literal = null) => Tokens.Add(new Token(type, GetLexemeString(), literal, CurrentLine, StartIndex));
+        private void AddToken(TokenType type, object literal = null) => Tokens.Add(new Token(type, GetLexemeString(), literal, CurrentLine, StartIndex + 1));
 
-        private void AddError(string errorMessage) => ErrorLoggingService.Errors.Add(new Error(errorMessage, CurrentLine, CurrentIndex));
+        private void AddError(string errorMessage) => ErrorLoggingService.Errors.Add(new Error(ErrorType.Lexical, errorMessage, CurrentLine, CurrentIndex + 1));
 
         private bool IsEnglishDigit(char c) => c >= '0' && c <= '9';
 

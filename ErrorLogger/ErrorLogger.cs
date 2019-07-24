@@ -25,6 +25,11 @@ namespace ErrorLogger
         }
     }
 
+    public enum ErrorType
+    {
+        Misc, Lexical, Syntax
+    }
+
     public struct Error
     {
         public string Message { get; }
@@ -33,13 +38,26 @@ namespace ErrorLogger
 
         public int ColumnNumber { get; }
 
-        public Error(string message, int line, int column)
+        public ErrorType Type { get; set; }
+
+        public Error(ErrorType type, string message, int line, int column)
         {
+            Type = type;
             Message = message;
             LineNumber = line;
             ColumnNumber = column;
         }
 
-        public override string ToString() => $"Error: At line {LineNumber}, col {ColumnNumber}: " + Message;
+        public override string ToString()
+        {
+            var Error = "";
+            switch (Type)
+            {
+                case ErrorType.Misc: Error = "Error:"; break;
+                case ErrorType.Lexical: Error = "Lexical Error:"; break;
+                case ErrorType.Syntax: Error = "Syntax Error:"; break;
+            }
+            return Error + $" At line {LineNumber}, col {ColumnNumber}: " + Message;
+        }
     }
 }

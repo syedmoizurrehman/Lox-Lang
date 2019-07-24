@@ -4,17 +4,26 @@ using Frontend.Expressions;
 using static Frontend.TokenType;
 using System.Diagnostics;
 using ErrorLogger;
-using System.Runtime.CompilerServices;
 
 namespace Frontend.Parser
 {
+    [Serializable]
+    public class ParseException : Exception
+    {
+        public ParseException() { }
+        public ParseException(string message) : base(message) { }
+        public ParseException(string message, Exception inner) : base(message, inner) { }
+        protected ParseException(System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+    }
+
     public class Parser
     {
         private IList<Token> Tokens;
         private int CurrentIndex;
         private Token PreviousToken => Tokens[CurrentIndex - 1];
-        private Token CurrentToken => Tokens[CurrentIndex];
-        private Token NextToken => !IsSourceConsumed() ? Tokens[CurrentIndex + 1] : default;
+        private Token CurrentToken => !IsSourceConsumed() ? Tokens[CurrentIndex] : new Token(EOF, null, null, PreviousToken.LineNumber, PreviousToken.ColumnNumber);
+        private Token NextToken => CurrentIndex + 1 < Tokens.Count ? Tokens[CurrentIndex + 1] : new Token(EOF, null, null, PreviousToken.LineNumber, PreviousToken.ColumnNumber);
 
         public Parser(IList<Token> sourceTokens)
         {
@@ -25,7 +34,15 @@ namespace Frontend.Parser
         public Expression Parse()
         {
             try { return Expression(); }
-            catch (Exception) { return null; }
+            catch (ParseException)
+            {
+                if (!IsSourceConsumed())
+                {
+                    Synchronize();
+                    return Parse();
+                }
+                return null;
+            }
         }
 
         private Expression Expression() => Equality();
@@ -115,15 +132,15 @@ namespace Frontend.Parser
                         AdvanceToken();
                         return new GroupingExpression(E);
                     }
-                    AddError("Expected ')'.");
-                    throw ReportError();     // Error
+                    throw ReportError("Expected ')'.");     // Error
             }
-            throw ReportError();
+            return null;
         }
 
-        private Exception ReportError()
+        private ParseException ReportError(string message)
         {
-            return new Exception();
+            AddError(message);
+            return new ParseException();
         }
 
         private void Synchronize()
@@ -133,8 +150,10 @@ namespace Frontend.Parser
             {
                 if (PreviousToken.Type == SEMICOLON) return;
 
-                switch (NextToken.Type)
+                switch (CurrentToken.Type)
                 {
+                    case STRING:
+                    case NUMBER:
                     case CLASS:
                     case FUN:
                     case VAR:
@@ -152,13 +171,20 @@ namespace Frontend.Parser
 
         private void AddError(string message)
         {
-            string ErrorMessage;
+            string ErrorMessage = message;
             if (CurrentToken.Type == EOF)
                 ErrorMessage = $"At end of file: {message}";
-            else
-                ErrorMessage = $"On {CurrentToken.Lexeme}: {message}";
 
-            ErrorLoggingService.Errors.Add(new Error(ErrorMessage, CurrentToken.LineNumber, CurrentToken.ColumnNumber));
+            ErrorLoggingService.Errors.Add(new Error(ErrorType.Syntax, ErrorMessage, CurrentToken.LineNumber, CurrentToken.ColumnNumber));
+        }
+
+        private void AddError(Token errorToken, string message)
+        {
+            string ErrorMessage = message;
+            if (errorToken.Type == EOF)
+                ErrorMessage = $"At end of file: {message}";
+
+            ErrorLoggingService.Errors.Add(new Error(ErrorType.Syntax, ErrorMessage, errorToken.LineNumber, errorToken.ColumnNumber));
         }
 
         [DebuggerStepThrough]

@@ -35,14 +35,16 @@ namespace LoxStar
                 var LexicalAnalyzer = new Lexer(Input);
                 var Tokens = LexicalAnalyzer.Tokenize();
                 //foreach (var Token in Tokens)
-                    //Console.WriteLine(Token);
-
-                var P = new Parser(Tokens);
-                var ExprTree = P.Parse();
-                if (ExprTree != null)
-                    Console.WriteLine(new AstPrinter().Print(ExprTree));
-                else
-                    Console.WriteLine("Syntax error(s) in expression tree.");
+                //Console.WriteLine(Token);
+                if (ErrorLoggingService.Errors.Count == 0)
+                {
+                    var P = new Parser(Tokens);
+                    var ExprTree = P.Parse();
+                    if (ExprTree != null)
+                        Console.WriteLine(new AstPrinter().Print(ExprTree));
+                    else
+                        Console.WriteLine("Syntax error(s) in expression tree.");
+                }
 
                 foreach (Error E in ErrorLoggingService.Errors)
                     Console.WriteLine(E);
