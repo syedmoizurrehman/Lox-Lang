@@ -4,6 +4,8 @@ using Frontend.Expressions;
 using static Frontend.TokenType;
 using System.Diagnostics;
 using ErrorLogger;
+using System.Runtime.CompilerServices;
+using Frontend.Statements;
 
 namespace Frontend.Parser
 {
@@ -22,6 +24,7 @@ namespace Frontend.Parser
         private IList<Token> Tokens;
         private int CurrentIndex;
         private Token PreviousToken => Tokens[CurrentIndex - 1];
+        private IList<Statement> Statements { get; } = new List<Statement>();
         private Token CurrentToken => !IsSourceConsumed() ? Tokens[CurrentIndex] : new Token(EOF, null, null, PreviousToken.LineNumber, PreviousToken.ColumnNumber);
         private Token NextToken => CurrentIndex + 1 < Tokens.Count ? Tokens[CurrentIndex + 1] : new Token(EOF, null, null, PreviousToken.LineNumber, PreviousToken.ColumnNumber);
 
@@ -31,18 +34,40 @@ namespace Frontend.Parser
             CurrentIndex = 0;
         }
 
-        public Expression Parse()
+        public IList<Statement> Parse()
         {
-            try { return Expression(); }
-            catch (ParseException)
+            Statements.Clear();
+            try
             {
-                if (!IsSourceConsumed())
-                {
-                    Synchronize();
-                    return Parse();
-                }
-                return null;
+                while (!IsSourceConsumed())
+                    Statements.Add(Statement());
             }
+            catch (Exception) { return null; }
+            return Statements;
+        }
+
+        private Statement Statement()
+        {
+            switch (CurrentToken.Type)
+            {
+                case PRINT:
+                    AdvanceToken();
+                    return PrintStatement();
+            }
+            return ExpressionStatement();
+        }
+
+        private Statement ExpressionStatement()
+        {
+            return new ExpressionStatement(Expression());
+        }
+
+        private Statement PrintStatement()
+        {
+            var Value = Expression();
+            if (CurrentToken.Type == SEMICOLON)
+                AdvanceToken();
+            return new PrintStatement(Value);
         }
 
         private Expression Expression() => Equality();

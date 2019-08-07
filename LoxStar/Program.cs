@@ -39,9 +39,23 @@ namespace LoxStar
                 if (ErrorLoggingService.Errors.Count == 0)
                 {
                     var P = new Parser(Tokens);
-                    var ExprTree = P.Parse();
-                    if (ExprTree != null)
-                        Console.WriteLine(new AstPrinter().Print(ExprTree));
+                    var Program = P.Parse();
+                    if (Program != null)
+                    {
+                        foreach (var Statement in Program)
+                        {
+                            Expression E = null;
+                            switch (Statement)
+                            {
+                                case Frontend.Statements.ExpressionStatement ExprStmt:
+                                    E = ExprStmt.Expr; break;
+
+                                case Frontend.Statements.PrintStatement PntStmt:
+                                    E = PntStmt.Expr; break;
+                            }
+                            Console.WriteLine(new AstPrinter().Print(E));
+                        }
+                    }
                     else
                         Console.WriteLine("Syntax error(s) in expression tree.");
                 }

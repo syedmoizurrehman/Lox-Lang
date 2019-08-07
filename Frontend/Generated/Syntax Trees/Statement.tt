@@ -10,12 +10,13 @@
  * This is an automatically generated file. Any changes made will be lost upon regeneration.
 */
 
+using Frontend.Expressions;
 using System.Diagnostics;
 
-namespace Frontend.Expressions
+namespace Frontend.Statements
 {
 <#			var Doc = new XmlDocument();
-            Doc.Load(@"C:\Users\Administrative\Source\Repos\LoxStar\Frontend\Generated\Syntax Trees\ExpressionTrees.xml");
+            Doc.Load(@"C:\Users\Administrative\Source\Repos\LoxStar\Frontend\Generated\Syntax Trees\StatementTrees.xml");
             var Classes = new List<string>();
             var Properties = new List<(string, string, string)>();   // Class, Property, Type
             foreach (XmlNode N in Doc.ChildNodes[1].ChildNodes)
@@ -24,10 +25,10 @@ namespace Frontend.Expressions
                 foreach (XmlNode Prop in N.ChildNodes)
                     Properties.Add((N.Name, Prop.InnerText, Prop.Name));
             }#>
-	public interface IExpressionVisitor<T>
+	public interface IStatementVisitor<T>
 	{
 <#			foreach (var C in Classes)
-			{ if (C == "Expression") continue;#>
+			{ if (C == "Statement") continue;#>
 		T Visit<#=C#>(<#=C#> <#=C[0].ToString().ToLower()+C.Substring(1)#>);
 <#}#>
 	}
@@ -35,12 +36,12 @@ namespace Frontend.Expressions
             {
 			var Props = Properties.Where(x => x.Item1 == C).ToArray();#>
 
-	public <#= C == "Expression" ? "abstract " : ""#>class <#=C#><#= C != "Expression" ? " : Expression" : ""#>
+	public <#= C == "Statement" ? "abstract " : ""#>class <#=C#><#= C != "Statement" ? " : Statement" : ""#>
     {
 <#foreach (var Prop in Properties.Where(x => x.Item1 == C)) {#>
 		public <#=Prop.Item3#> <#=Prop.Item2#> { get; }
 
-<#} if (C == "Expression") goto skipctor;#>
+<#} if (C == "Statement") goto skipctor;#>
 		[DebuggerStepThrough]
 		public <#=C#>(<# for(int i=0;i<Props.Length;i++){#><#=Props[i].Item3#> <#=Props[i].Item2[0].ToString().ToLower()+Props[i].Item2.Substring(1)#><#=i == Props.Length - 1 ? "" : ", " #><#}#>)
 		{
@@ -50,7 +51,8 @@ namespace Frontend.Expressions
 		}
 
 <#skipctor:#>
-		public <#=C == "Expression" ? "abstract" : "override"#> T Accept<T>(IExpressionVisitor<T> visitor)<#=C == "Expression" ? ";" : $" => visitor.Visit{C}(this);"#>
+        [DebuggerStepThrough]
+		public <#=C == "Statement" ? "abstract" : "override"#> T Accept<T>(IStatementVisitor<T> visitor)<#=C == "Statement" ? ";" : $" => visitor.Visit{C}(this);"#>
 	}
 <#}#>
 }

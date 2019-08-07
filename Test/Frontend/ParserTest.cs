@@ -5,6 +5,7 @@ using Frontend.Expressions;
 using System.Collections.Generic;
 using Xunit;
 using System;
+using Frontend.Statements;
 
 namespace Test.Frontend
 {
@@ -14,7 +15,8 @@ namespace Test.Frontend
         public void BinExprTest()
         {
             var P = GetTestParser("123 * 456");
-            var E = (BinaryExpression)P.Parse();
+            var S = (ExpressionStatement)P.Parse()[0];
+            var E = (BinaryExpression)S.Expr;
             var L = (LiteralExpression)E.Left;
             var Op = E.BinaryOperator;
             var R = (LiteralExpression)E.Right;
@@ -25,7 +27,8 @@ namespace Test.Frontend
         public void UnExprTest()
         {
             var P = GetTestParser("-123");
-            var E = (UnaryExpression)P.Parse();
+            var S = (ExpressionStatement)P.Parse()[0];
+            var E = (UnaryExpression)S.Expr;
             var Op = E.UnaryOperator;
             var R = (LiteralExpression)E.Right;
             Assert.True(Op.Type == TokenType.MINUS && (double)R.Value == 123);
@@ -42,7 +45,8 @@ namespace Test.Frontend
         public void ExprTypeTest(Type expectedType, string userInput)
         {
             var P = GetTestParser(userInput);
-            var Root = P.Parse();
+            var S = (ExpressionStatement)P.Parse()[0];
+            var Root = S.Expr;
             Assert.True(Root.GetType() == expectedType);
         }
 
@@ -60,7 +64,8 @@ namespace Test.Frontend
         public void BinExprOperatorTest(string expectedOperator, string userInput)
         {
             var P = GetTestParser(userInput);
-            var Root = P.Parse() as BinaryExpression;
+            var S = (ExpressionStatement)P.Parse()[0];
+            var Root = S.Expr as BinaryExpression;
             Assert.True(Root.BinaryOperator.Lexeme == expectedOperator);
         }
 
@@ -70,7 +75,8 @@ namespace Test.Frontend
         public void UnaryExprOperatorTest(string expectedOperator, string userInput)
         {
             var P = GetTestParser(userInput);
-            var Root = P.Parse() as UnaryExpression;
+            var S = (ExpressionStatement)P.Parse()[0];
+            var Root = S.Expr as UnaryExpression;
             Assert.True(Root.UnaryOperator.Lexeme == expectedOperator);
         }
 

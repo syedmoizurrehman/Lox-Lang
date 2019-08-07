@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -26,12 +26,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Expression.tt</DependentUpon>
     </Compile>
+    <Compile Update="Generated\Syntax Trees\Statement.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Statement.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <None Update="Generated\Syntax Trees\Expression.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Expression.cs</LastGenOutput>
+    </None>
+    <None Update="Generated\Syntax Trees\Statement.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Statement.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
