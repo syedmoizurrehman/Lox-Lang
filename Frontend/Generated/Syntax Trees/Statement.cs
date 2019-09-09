@@ -7,16 +7,8 @@ using System.Diagnostics;
 
 namespace Frontend.Statements
 {
-	public interface IStatementVisitor<T>
-	{
-		T VisitExpressionStatement(ExpressionStatement expressionStatement);
-		T VisitPrintStatement(PrintStatement printStatement);
-	}
-
 	public abstract class Statement
     {
-        [DebuggerStepThrough]
-		public abstract T Accept<T>(IStatementVisitor<T> visitor);
 	}
 
 	public class ExpressionStatement : Statement
@@ -28,9 +20,6 @@ namespace Frontend.Statements
 		{
 			Expr = expr;
 		}
-
-        [DebuggerStepThrough]
-		public override T Accept<T>(IStatementVisitor<T> visitor) => visitor.VisitExpressionStatement(this);
 	}
 
 	public class PrintStatement : Statement
@@ -42,8 +31,5 @@ namespace Frontend.Statements
 		{
 			Expr = expr;
 		}
-
-        [DebuggerStepThrough]
-		public override T Accept<T>(IStatementVisitor<T> visitor) => visitor.VisitPrintStatement(this);
 	}
 }

@@ -23,19 +23,11 @@ namespace Frontend.Expressions
                 Classes.Add(N.Name);
                 foreach (XmlNode Prop in N.ChildNodes)
                     Properties.Add((N.Name, Prop.InnerText, Prop.Name));
-            }#>
-	public interface IExpressionVisitor<T>
-	{
-<#			foreach (var C in Classes)
-			{ if (C == "Expression") continue;#>
-		T Visit<#=C#>(<#=C#> <#=C[0].ToString().ToLower()+C.Substring(1)#>);
-<#}#>
-	}
-<#			foreach (var C in Classes)
+            }
+			foreach (var C in Classes)
             {
 			var Props = Properties.Where(x => x.Item1 == C).ToArray();#>
-
-	public <#= C == "Expression" ? "abstract " : ""#>class <#=C#><#= C != "Expression" ? " : Expression" : ""#>
+<#= C == "Expression" ? "" : "\r\n" #>	public <#= C == "Expression" ? "abstract " : ""#>class <#=C#><#= C != "Expression" ? " : Expression" : ""#>
     {
 <#foreach (var Prop in Properties.Where(x => x.Item1 == C)) {#>
 		public <#=Prop.Item3#> <#=Prop.Item2#> { get; }
@@ -48,9 +40,7 @@ namespace Frontend.Expressions
 			<#=Props[i].Item2#> = <#=Props[i].Item2[0].ToString().ToLower()+Props[i].Item2.Substring(1)#>;
 <#}#>
 		}
-
 <#skipctor:#>
-		public <#=C == "Expression" ? "abstract" : "override"#> T Accept<T>(IExpressionVisitor<T> visitor)<#=C == "Expression" ? ";" : $" => visitor.Visit{C}(this);"#>
 	}
 <#}#>
 }

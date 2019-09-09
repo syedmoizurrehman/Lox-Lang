@@ -25,18 +25,10 @@ namespace Frontend.Statements
                 foreach (XmlNode Prop in N.ChildNodes)
                     Properties.Add((N.Name, Prop.InnerText, Prop.Name));
             }#>
-	public interface IStatementVisitor<T>
-	{
-<#			foreach (var C in Classes)
-			{ if (C == "Statement") continue;#>
-		T Visit<#=C#>(<#=C#> <#=C[0].ToString().ToLower()+C.Substring(1)#>);
-<#}#>
-	}
 <#			foreach (var C in Classes)
             {
 			var Props = Properties.Where(x => x.Item1 == C).ToArray();#>
-
-	public <#= C == "Statement" ? "abstract " : ""#>class <#=C#><#= C != "Statement" ? " : Statement" : ""#>
+<#=C == "Statement" ? "" : "\r\n"#>	public <#= C == "Statement" ? "abstract " : ""#>class <#=C#><#= C != "Statement" ? " : Statement" : ""#>
     {
 <#foreach (var Prop in Properties.Where(x => x.Item1 == C)) {#>
 		public <#=Prop.Item3#> <#=Prop.Item2#> { get; }
@@ -49,10 +41,7 @@ namespace Frontend.Statements
 			<#=Props[i].Item2#> = <#=Props[i].Item2[0].ToString().ToLower()+Props[i].Item2.Substring(1)#>;
 <#}#>
 		}
-
 <#skipctor:#>
-        [DebuggerStepThrough]
-		public <#=C == "Statement" ? "abstract" : "override"#> T Accept<T>(IStatementVisitor<T> visitor)<#=C == "Statement" ? ";" : $" => visitor.Visit{C}(this);"#>
 	}
 <#}#>
 }

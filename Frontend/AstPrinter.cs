@@ -2,11 +2,11 @@
 
 namespace Frontend.Expressions
 {
-    public class AstPrinter : IExpressionVisitor<string>
+    public static class AstPrinter
     {
-        public string Print(Expression expression) => expression.Accept(this);
+        public static string Print(Expression e) => PrintExpression((dynamic)e);
 
-        private string Parenthesize(string name, params Expression[] expressions)
+        private static string Parenthesize(string name, params Expression[] expressions)
         {
             var Builder = new StringBuilder();
 
@@ -19,9 +19,9 @@ namespace Frontend.Expressions
             return Builder.ToString();
         }
 
-        public string VisitBinaryExpression(BinaryExpression binaryExpression) => Parenthesize(binaryExpression.BinaryOperator.Lexeme, binaryExpression.Left, binaryExpression.Right);
-        public string VisitGroupingExpression(GroupingExpression groupingExpression) => Parenthesize("group", groupingExpression.EnclosedExpression);
-        public string VisitLiteralExpression(LiteralExpression literalExpression) => literalExpression.Value?.ToString() ?? "nil";
-        public string VisitUnaryExpression(UnaryExpression unaryExpression) => Parenthesize(unaryExpression.UnaryOperator.Lexeme, unaryExpression.Right);
+        private static string PrintExpression(BinaryExpression binaryExpression) => Parenthesize(binaryExpression.BinaryOperator.Lexeme, binaryExpression.Left, binaryExpression.Right);
+        private static string PrintExpression(GroupingExpression groupingExpression) => Parenthesize("group", groupingExpression.EnclosedExpression);
+        private static string PrintExpression(LiteralExpression literalExpression) => literalExpression.Value?.ToString() ?? "nil";
+        private static string PrintExpression(UnaryExpression unaryExpression) => Parenthesize(unaryExpression.UnaryOperator.Lexeme, unaryExpression.Right);
     }
 }

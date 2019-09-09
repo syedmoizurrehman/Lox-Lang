@@ -53,7 +53,7 @@ namespace LoxStar
                                 case Frontend.Statements.PrintStatement PntStmt:
                                     E = PntStmt.Expr; break;
                             }
-                            Console.WriteLine(new AstPrinter().Print(E));
+                            Console.WriteLine(AstPrinter.Print(E));
                         }
                     }
                     else

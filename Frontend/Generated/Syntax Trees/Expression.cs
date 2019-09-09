@@ -6,17 +6,8 @@ using System.Diagnostics;
 
 namespace Frontend.Expressions
 {
-	public interface IExpressionVisitor<T>
-	{
-		T VisitBinaryExpression(BinaryExpression binaryExpression);
-		T VisitGroupingExpression(GroupingExpression groupingExpression);
-		T VisitLiteralExpression(LiteralExpression literalExpression);
-		T VisitUnaryExpression(UnaryExpression unaryExpression);
-	}
-
 	public abstract class Expression
     {
-		public abstract T Accept<T>(IExpressionVisitor<T> visitor);
 	}
 
 	public class BinaryExpression : Expression
@@ -34,8 +25,6 @@ namespace Frontend.Expressions
 			BinaryOperator = binaryOperator;
 			Right = right;
 		}
-
-		public override T Accept<T>(IExpressionVisitor<T> visitor) => visitor.VisitBinaryExpression(this);
 	}
 
 	public class GroupingExpression : Expression
@@ -47,8 +36,6 @@ namespace Frontend.Expressions
 		{
 			EnclosedExpression = enclosedExpression;
 		}
-
-		public override T Accept<T>(IExpressionVisitor<T> visitor) => visitor.VisitGroupingExpression(this);
 	}
 
 	public class LiteralExpression : Expression
@@ -60,8 +47,6 @@ namespace Frontend.Expressions
 		{
 			Value = value;
 		}
-
-		public override T Accept<T>(IExpressionVisitor<T> visitor) => visitor.VisitLiteralExpression(this);
 	}
 
 	public class UnaryExpression : Expression
@@ -76,7 +61,5 @@ namespace Frontend.Expressions
 			UnaryOperator = unaryOperator;
 			Right = right;
 		}
-
-		public override T Accept<T>(IExpressionVisitor<T> visitor) => visitor.VisitUnaryExpression(this);
 	}
 }
